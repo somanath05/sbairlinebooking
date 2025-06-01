@@ -1,0 +1,24 @@
+# dependencies
+node_modules/
+.env
+
+# production
+build/
+dist/
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# system files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Docker
+*.local
+docker-compose.override.yml
