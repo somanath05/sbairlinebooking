@@ -1,3 +1,92 @@
+# # version: '3.8'
+
+# # services:
+# #   mongo:
+# #     image: mongo:6.0
+# #     container_name: mongo
+# #     ports:
+# #       - "27017:27017"
+# #     volumes:
+# #       - mongo_data:/data/db
+# #     restart: unless-stopped
+
+# #   backend:
+# #     build:
+# #       context: ./backend
+# #       dockerfile: Dockerfile
+# #     ports:
+# #       - "5000:5000"
+# #     env_file:
+# #       - ./backend/.env
+# #     depends_on:
+# #       - mongo
+# #     restart: unless-stopped
+
+# #   frontend:
+# #     build:
+# #       context: ./frontend
+# #       dockerfile: Dockerfile
+# #     ports:
+# #       - "3000:80"
+# #     depends_on:
+# #       - backend
+# #     restart: unless-stopped
+
+# # volumes:
+# #   mongo_data:
+
+
+
+
+
+# version: '3.8'
+
+# services:
+#   mongo:
+#     image: mongo:6.0
+#     container_name: mongo
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo_data:/data/db
+#     restart: unless-stopped
+
+#   backend:
+#     build:
+#       context: ./backend
+#       dockerfile: Dockerfile
+#     working_dir: /app
+#     volumes:
+#       - ./backend:/app
+#     ports:
+#       - "5000:5000"
+#     env_file:
+#       - ./backend/.env
+#     depends_on:
+#       - mongo
+#     command: npm start
+#     restart: unless-stopped
+
+#   frontend:
+#     build:
+#       context: ./frontend
+#       dockerfile: Dockerfile
+#     working_dir: /app
+#     volumes:
+#       - ./frontend:/app
+#     ports:
+#       - "3000:80"
+#     depends_on:
+#       - backend
+#     command: npm run build && npx serve -s build -l 80
+#     restart: unless-stopped
+
+# volumes:
+#   mongo_data:
+
+
+
+
 version: '3.8'
 
 services:
@@ -13,24 +102,29 @@ services:
   backend:
     build:
       context: ./backend
-    ports:
-      - "5000:5000"
+      dockerfile: Dockerfile
+    working_dir: /app
     volumes:
       - ./backend:/app
+    ports:
+      - "5000:5000"
     env_file:
       - ./backend/.env
     depends_on:
       - mongo
+    command: npm start
     restart: unless-stopped
 
   frontend:
     build:
       context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:80"
     depends_on:
       - backend
     restart: unless-stopped
+    # no volumes or command needed since this serves built static files
 
 volumes:
   mongo_data:
